@@ -22,10 +22,6 @@ public class Crawler {
         executor.execute(task);
     }
 
-    public void parse(ParsingTask task) {
-        executor.execute(task);
-    }
-
     public void finish() {
         executor.shutdown();
     }

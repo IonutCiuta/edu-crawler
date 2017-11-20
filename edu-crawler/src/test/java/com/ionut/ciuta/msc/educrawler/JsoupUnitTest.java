@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * ionutciuta24@gmail.com on 19.11.2017.
  */
-public class JsoupTest {
+public class JsoupUnitTest {
     @Test
     public void parseTableTest() throws Exception {
         Document document = Jsoup.parse(unitsPage);

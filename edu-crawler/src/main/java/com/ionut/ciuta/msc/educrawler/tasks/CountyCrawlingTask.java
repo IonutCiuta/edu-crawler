@@ -5,6 +5,7 @@ import com.ionut.ciuta.msc.educrawler.Http;
 import com.ionut.ciuta.msc.educrawler.Urls;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
 import com.ionut.ciuta.msc.educrawler.parsers.UnitBuilder;
+import com.ionut.ciuta.msc.educrawler.storage.UnitRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,10 +23,12 @@ public class CountyCrawlingTask extends CrawlingTask {
     private static final Logger log = LoggerFactory.getLogger(CountyCrawlingTask.class);
     private final String county;
     private final Crawler crawler;
+    private final UnitRepository repository;
 
-    public CountyCrawlingTask(String county, Crawler crawler) {
+    public CountyCrawlingTask(String county, Crawler crawler, UnitRepository repository) {
         this.county = county;
         this.crawler = crawler;
+        this.repository = repository;
     }
 
     @Override
@@ -55,7 +58,8 @@ public class CountyCrawlingTask extends CrawlingTask {
         ).collect(Collectors.toList());
 
         List<Unit> units = us.stream().flatMap(List::stream).collect(Collectors.toList());
-
+        System.out.println(county + ": " + units.size());
+        repository.save(units);
     }
 
     private List<Element> getRows(Document document) {
