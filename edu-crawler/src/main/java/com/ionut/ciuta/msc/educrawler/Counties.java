@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * ionutciuta24@gmail.com on 19.11.2017.
  */
-public class County {
+public class Counties {
     private static final List<String> all;
 
     static {
