@@ -3,6 +3,7 @@ package com.ionut.ciuta.msc.educrawler.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,6 +51,11 @@ public class Student {
      * Average grade
      */
     private float avgGrade;
+
+    public Student() {
+        this.competencies = new HashMap<>();
+        this.exams = new HashMap<>();
+    }
 
     public String getId() {
         return id;
@@ -113,5 +119,12 @@ public class Student {
 
     public void setAvgGrade(float avgGrade) {
         this.avgGrade = avgGrade;
+    }
+
+    public void addCompetency(String name, String result) {
+        if(name == null || name.isEmpty()) {
+            throw new UnsupportedOperationException();
+        }
+        competencies.put(name, result);
     }
 }

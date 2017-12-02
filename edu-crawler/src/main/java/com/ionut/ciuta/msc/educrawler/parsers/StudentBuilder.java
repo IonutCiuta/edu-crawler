@@ -1,5 +1,7 @@
 package com.ionut.ciuta.msc.educrawler.parsers;
 
+import com.ionut.ciuta.msc.educrawler.Text;
+import com.ionut.ciuta.msc.educrawler.models.Competency;
 import com.ionut.ciuta.msc.educrawler.models.Student;
 import org.jsoup.nodes.Element;
 
@@ -26,6 +28,21 @@ public class StudentBuilder {
         List<String> generalInfo = extractGeneralInfo();
         student.setName(generalInfo.get(0));
         student.setAvgGrade(Float.parseFloat(generalInfo.get(1)));
+        student.setFirstAttempt(isFirstAttempt());
+        student.setProfile(getProfile());
+
+        Competency roLangComp = getRoLangComp();
+        student.addCompetency(roLangComp.getKey(), roLangComp.getValue());
+
+        Competency mtLangComp = getMtLangComp();
+        if(mtLangComp != null) student.addCompetency(mtLangComp.getKey(), mtLangComp.getValue());
+
+        Competency mdLangComp = getMdLangComp();
+        if(mdLangComp != null) student.addCompetency(mdLangComp.getKey(), mdLangComp.getValue());
+
+        Competency digitalComp = getDigitalComp();
+        if(digitalComp != null) student.addCompetency(digitalComp.getKey(), digitalComp.getValue());
+
         return this;
     }
 
@@ -43,6 +60,53 @@ public class StudentBuilder {
                 .filter(s -> !s.isEmpty())
                 .map(String::trim)
                 .collect(Collectors.toList());
+    }
+
+    private boolean isFirstAttempt() {
+        return "NU".equals(Text.get(data.get(3)));
+    }
+
+    private String getProfile() {
+        return Text.get(data.get(5));
+    }
+
+    private Competency getRoLangComp() {
+        return Competency.getForRoLang(Text.get(data.get(6)));
+    }
+
+    private Competency getMtLangComp() {
+        String mtLang = getMtLang();
+        return !mtLang.isEmpty() ? new Competency(mtLang, getMtLangCompResult()) : null;
+    }
+
+    private String getMtLang() {
+        return Text.get(data.get(10));
+    }
+
+    private String getMtLangCompResult() {
+        return Text.get(data.get(18));
+    }
+
+    private Competency getMdLangComp() {
+        String mdLangResult = getMdLangCompResult();
+        return !mdLangResult.isEmpty() ? new Competency(getMdLang(), mdLangResult) : null;
+    }
+
+    private String getMdLang() {
+        return Text.get(data.get(11));
+    }
+
+    private String getMdLangCompResult() {
+        return Text.get(data.get(12));
+    }
+
+    private Competency getDigitalComp() {
+        String digitalCompResult = getDigitalCompResult();
+        return !digitalCompResult.isEmpty() ? Competency.getForDigital(digitalCompResult) : null;
+    }
+
+    private String getDigitalCompResult() {
+        return Text.get(data.get(15));
     }
 
     public Student getStudent() {
