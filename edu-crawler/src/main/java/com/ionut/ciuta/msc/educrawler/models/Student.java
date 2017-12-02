@@ -127,4 +127,11 @@ public class Student {
         }
         competencies.put(name, result);
     }
+
+    public void addExam(ExamType examType, Exam exam) {
+        if(exam == null || examType == null) {
+            throw new UnsupportedOperationException();
+        }
+        exams.put(examType, exam);
+    }
 }

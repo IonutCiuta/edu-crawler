@@ -17,10 +17,10 @@ public enum ExamType {
     /**
      * Profile exam 1 e.g. Math
      */
-    P1,
+    Profile_1,
 
     /**
      * Profile exam 2 e.g. Math
      */
-    P2
+    Proile_2
 }

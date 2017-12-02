@@ -1,8 +1,7 @@
 package com.ionut.ciuta.msc.educrawler.parsers;
 
 import com.ionut.ciuta.msc.educrawler.Text;
-import com.ionut.ciuta.msc.educrawler.models.Competency;
-import com.ionut.ciuta.msc.educrawler.models.Student;
+import com.ionut.ciuta.msc.educrawler.models.*;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
@@ -23,6 +22,11 @@ public class StudentBuilder {
         this.data = new ArrayList<>();
     }
 
+    public StudentBuilder studiesAt(String unitId) {
+        student.setUnit(unitId);
+        return this;
+    }
+
     public StudentBuilder fromLine(List<Element> line) {
         data.addAll(line);
 
@@ -31,9 +35,12 @@ public class StudentBuilder {
         student.setAvgGrade(Float.parseFloat(generalInfo.get(1)));
         student.setFirstAttempt(isFirstAttempt());
         student.setProfile(getProfile());
+
         extractCompetencies().stream()
                 .filter(Objects::nonNull)
                 .forEach(c -> student.addCompetency(c.getKey(), c.getValue()));
+
+        extractExams();
         return this;
     }
 
@@ -60,6 +67,17 @@ public class StudentBuilder {
                 getMdLangComp(),
                 getDigitalComp()
         );
+    }
+
+    private void extractExams() {
+        student.addExam(ExamType.Ro_Lang, getRoLangExam());
+        student.addExam(ExamType.Profile_1, getProfileExam1());
+        student.addExam(ExamType.Proile_2, getProfileExam2());
+
+        Exam mtLangExam = getMtLangExam();
+        if(mtLangExam != null) {
+            student.addExam(ExamType.Mt_Lang, mtLangExam);
+        }
     }
 
     private boolean isFirstAttempt() {
@@ -107,6 +125,56 @@ public class StudentBuilder {
 
     private String getDigitalCompResult() {
         return Text.get(data.get(15));
+    }
+
+    private Exam getRoLangExam() {
+        Grades grades = new Grades(
+            Text.get(data.get(7)),
+            Text.get(data.get(8)),
+            Text.get(data.get(9))
+        );
+
+        return new Exam(Exam.RO_LANG, grades);
+    }
+
+    private Exam getMtLangExam() {
+        String mtLang = Text.get(data.get(10));
+
+        if(!mtLang.isEmpty()) {
+            Grades grades = new Grades(
+                Text.get(data.get(19)),
+                Text.get(data.get(20)),
+                Text.get(data.get(21))
+            );
+
+            return new Exam(mtLang, grades);
+        }
+
+        return null;
+    }
+
+    private Exam getProfileExam1() {
+        String subject = Text.get(data.get(13));
+
+        Grades grades = new Grades(
+                Text.get(data.get(22)),
+                Text.get(data.get(23)),
+                Text.get(data.get(24))
+        );
+
+        return new Exam(subject, grades);
+    }
+
+    private Exam getProfileExam2() {
+        String subject = Text.get(data.get(1));
+
+        Grades grades = new Grades(
+                Text.get(data.get(25)),
+                Text.get(data.get(26)),
+                Text.get(data.get(27))
+        );
+
+        return new Exam(subject, grades);
     }
 
     public Student getStudent() {
