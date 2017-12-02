@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,19 +31,9 @@ public class StudentBuilder {
         student.setAvgGrade(Float.parseFloat(generalInfo.get(1)));
         student.setFirstAttempt(isFirstAttempt());
         student.setProfile(getProfile());
-
-        Competency roLangComp = getRoLangComp();
-        student.addCompetency(roLangComp.getKey(), roLangComp.getValue());
-
-        Competency mtLangComp = getMtLangComp();
-        if(mtLangComp != null) student.addCompetency(mtLangComp.getKey(), mtLangComp.getValue());
-
-        Competency mdLangComp = getMdLangComp();
-        if(mdLangComp != null) student.addCompetency(mdLangComp.getKey(), mdLangComp.getValue());
-
-        Competency digitalComp = getDigitalComp();
-        if(digitalComp != null) student.addCompetency(digitalComp.getKey(), digitalComp.getValue());
-
+        extractCompetencies().stream()
+                .filter(Objects::nonNull)
+                .forEach(c -> student.addCompetency(c.getKey(), c.getValue()));
         return this;
     }
 
@@ -60,6 +51,15 @@ public class StudentBuilder {
                 .filter(s -> !s.isEmpty())
                 .map(String::trim)
                 .collect(Collectors.toList());
+    }
+
+    private List<Competency> extractCompetencies() {
+        return Arrays.asList(
+                getRoLangComp(),
+                getMtLangComp(),
+                getMdLangComp(),
+                getDigitalComp()
+        );
     }
 
     private boolean isFirstAttempt() {
