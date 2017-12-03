@@ -22,5 +22,5 @@ public enum ExamType {
     /**
      * Profile exam 2 e.g. Math
      */
-    Proile_2
+    Profile_2
 }

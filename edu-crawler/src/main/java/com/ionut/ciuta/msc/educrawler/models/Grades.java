@@ -47,4 +47,13 @@ public class Grades {
     public void setFinalGrade(String finalGrade) {
         this.finalGrade = finalGrade;
     }
+
+    @Override
+    public String toString() {
+        return "Grades{" +
+                "initial='" + initial + '\'' +
+                ", contestation='" + contestation + '\'' +
+                ", finalGrade='" + finalGrade + '\'' +
+                '}';
+    }
 }

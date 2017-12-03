@@ -40,4 +40,12 @@ public class Competency implements Map.Entry<String, String> {
         this.result = value;
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Competency{" +
+                "name='" + name + '\'' +
+                ", result='" + result + '\'' +
+                '}';
+    }
 }

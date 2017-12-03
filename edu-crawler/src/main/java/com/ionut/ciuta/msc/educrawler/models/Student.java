@@ -134,4 +134,18 @@ public class Student {
         }
         exams.put(examType, exam);
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", profile='" + profile + '\'' +
+                ", unit='" + unit + '\'' +
+                ", firstAttempt=" + firstAttempt +
+                ", competencies=" + competencies +
+                ", exams=" + exams +
+                ", avgGrade=" + avgGrade +
+                '}';
+    }
 }

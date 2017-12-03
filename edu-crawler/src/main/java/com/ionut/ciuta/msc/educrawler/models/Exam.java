@@ -38,4 +38,12 @@ public class Exam {
     public void setGrades(Grades grades) {
         this.grades = grades;
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "subject='" + subject + '\'' +
+                ", grades=" + grades +
+                '}';
+    }
 }

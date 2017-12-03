@@ -72,7 +72,7 @@ public class StudentBuilder {
     private void extractExams() {
         student.addExam(ExamType.Ro_Lang, getRoLangExam());
         student.addExam(ExamType.Profile_1, getProfileExam1());
-        student.addExam(ExamType.Proile_2, getProfileExam2());
+        student.addExam(ExamType.Profile_2, getProfileExam2());
 
         Exam mtLangExam = getMtLangExam();
         if(mtLangExam != null) {
@@ -166,7 +166,7 @@ public class StudentBuilder {
     }
 
     private Exam getProfileExam2() {
-        String subject = Text.get(data.get(1));
+        String subject = Text.get(data.get(14));
 
         Grades grades = new Grades(
                 Text.get(data.get(25)),
