@@ -2,23 +2,16 @@ package com.ionut.ciuta.msc.educrawler;
 
 import com.ionut.ciuta.msc.educrawler.models.ExamType;
 import com.ionut.ciuta.msc.educrawler.models.Student;
-import com.ionut.ciuta.msc.educrawler.parsers.StudentBuilder;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import com.ionut.ciuta.msc.educrawler.parsers.StudentParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -53,7 +46,7 @@ public class JsoupStudentBuilderTest {
 
         assertEquals(28, studentLine.size());
 
-        Student student = new StudentBuilder()
+        Student student = new StudentParser()
                 .studiesAt(unit)
                 .fromLine(studentLine)
                 .getStudent();
@@ -86,7 +79,7 @@ public class JsoupStudentBuilderTest {
 
         assertEquals(28, studentLine.size());
 
-        Student student = new StudentBuilder()
+        Student student = new StudentParser()
                 .studiesAt(unit)
                 .fromLine(studentLine)
                 .getStudent();

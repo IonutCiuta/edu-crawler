@@ -1,14 +1,12 @@
 package com.ionut.ciuta.msc.educrawler;
 
-import com.ionut.ciuta.msc.educrawler.parsers.UnitBuilder;
+import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 
-import javax.print.Doc;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +28,7 @@ public class JsoupUnitTest {
         List<Element> columns = element.select(".td");
         assertEquals(3, columns.size());
 
-        System.out.println(new UnitBuilder().fromRow(element).fromCounty("AB").getUnit());
+        System.out.println(new UnitParser().fromRow(element).fromCounty("AB").getUnit());
 
         //Localitate
         System.out.println(columns.get(1).text().replace("\u00a0",""));

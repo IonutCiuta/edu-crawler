@@ -4,7 +4,7 @@ import com.ionut.ciuta.msc.educrawler.Crawler;
 import com.ionut.ciuta.msc.educrawler.Http;
 import com.ionut.ciuta.msc.educrawler.Urls;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
-import com.ionut.ciuta.msc.educrawler.parsers.UnitBuilder;
+import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
 import com.ionut.ciuta.msc.educrawler.storage.UnitRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,7 +49,7 @@ public class CountyCrawlingTask extends CrawlingTask {
                 document -> {
                     List<Element> rows = getRows(document);
                     return rows.stream()
-                            .map(row -> new UnitBuilder()
+                            .map(row -> new UnitParser()
                                     .fromRow(row)
                                     .fromCounty(county)
                                     .getUnit()

@@ -1,7 +1,6 @@
 package com.ionut.ciuta.msc.educrawler.parsers;
 
 import com.ionut.ciuta.msc.educrawler.models.Unit;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
@@ -10,16 +9,16 @@ import java.util.List;
 /**
  * ionutciuta24@gmail.com on 20.11.2017.
  */
-public class UnitBuilder {
+public class UnitParser {
     private final Unit unit;
     private final List<Element> columns;
 
-    public UnitBuilder() {
+    public UnitParser() {
         this.unit = new Unit();
         this.columns = new ArrayList<>();
     }
 
-    public UnitBuilder fromRow(Element row) {
+    public UnitParser fromRow(Element row) {
         columns.addAll(row.select(".td"));
         unit.setId(findId());
         unit.setName(findName());
@@ -28,7 +27,7 @@ public class UnitBuilder {
         return this;
     }
 
-    public UnitBuilder fromCounty(String county) {
+    public UnitParser fromCounty(String county) {
         unit.setCounty(county);
         return this;
     }

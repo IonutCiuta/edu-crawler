@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 /**
  * ionutciuta24@gmail.com on 02.12.2017.
  */
-public class StudentBuilder {
+public class StudentParser {
     private final Student student;
     private final List<Element> data;
 
-    public StudentBuilder() {
+    public StudentParser() {
         this.student = new Student();
         this.data = new ArrayList<>();
     }
 
-    public StudentBuilder studiesAt(String unitId) {
+    public StudentParser studiesAt(String unitId) {
         student.setUnit(unitId);
         return this;
     }
 
-    public StudentBuilder fromLine(List<Element> line) {
+    public StudentParser fromLine(List<Element> line) {
         data.addAll(line);
 
         List<String> generalInfo = extractGeneralInfo();
