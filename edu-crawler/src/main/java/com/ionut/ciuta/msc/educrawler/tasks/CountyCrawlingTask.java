@@ -7,14 +7,12 @@ import com.ionut.ciuta.msc.educrawler.cache.HtmlCacheService;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
 import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
 import com.ionut.ciuta.msc.educrawler.storage.StorageService;
-import com.ionut.ciuta.msc.educrawler.storage.UnitRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,16 +25,16 @@ public class CountyCrawlingTask extends CrawlingTask {
     private final String county;
     private final Crawler crawler;
     private final StorageService storageService;
-    private final HtmlCacheService htmlCacheService;
+    private final HtmlCacheService cacheService;
 
     public CountyCrawlingTask(String county,
                               Crawler crawler,
                               StorageService storageService,
-                              HtmlCacheService htmlCacheService) {
+                              HtmlCacheService cacheService) {
         this.county = county;
         this.crawler = crawler;
         this.storageService = storageService;
-        this.htmlCacheService = htmlCacheService;
+        this.cacheService = cacheService;
     }
 
     @Override
@@ -46,7 +44,7 @@ public class CountyCrawlingTask extends CrawlingTask {
 
     @Override
     public void run() {
-        Document docHtml = getUnitPage(null);
+        Document docHtml = getUnitPage(1);
         List<Document> docs = new ArrayList<>();
 
         int pages = getNumberOfPages(docHtml);
@@ -86,7 +84,17 @@ public class CountyCrawlingTask extends CrawlingTask {
     }
 
     private Document getUnitPage(Integer page) {
-        return Jsoup.parse(Http.get(page == null ? Urls.build(county) : Urls.build(county, page)));
+        String html;
+        String fileName = cacheService.getCountyCacheFileName(county, page.toString());
+
+        if(cacheService.isHtmlCached(fileName)) {
+            html = cacheService.loadCachedHtml(fileName);
+        } else {
+            html = Http.get(Urls.build(county, page));
+            cacheService.cacheHtml(fileName, html);
+        }
+
+        return Jsoup.parse(html);
     }
 
     public int getNumberOfPages(Document doc) {

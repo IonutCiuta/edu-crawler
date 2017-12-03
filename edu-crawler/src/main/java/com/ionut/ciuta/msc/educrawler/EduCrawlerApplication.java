@@ -16,7 +16,6 @@ public class EduCrawlerApplication {
 		StorageService storageService = context.getBean(StorageService.class);
 		HtmlCacheService htmlCacheService = context.getBean(HtmlCacheService.class);
 
-
 		Crawler crawler = new Crawler(4);
 		Counties.getAll()
 				.forEach(c -> crawler.crawl(new CountyCrawlingTask(c, crawler, storageService, htmlCacheService)));

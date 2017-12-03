@@ -17,26 +17,29 @@ import java.nio.file.Files;
 public class HtmlCacheService {
     Logger logger = LoggerFactory.getLogger(HtmlCacheService.class);
 
-    public String getCountyCacheFileName(String county, String unitId, String page) {
-        return "caching/units/".concat(getCacheFileName(county, unitId, page));
+    public String getCountyCacheFileName(String county, String page) {
+        return "caching/units/".concat(getCacheFileName(county, page));
     }
 
-    public String getResultsCacheFileName(String county, String unitId, String page) {
-        return "caching/results/".concat(getCacheFileName(county, unitId, page));
+    public String getResultsCacheFileName(String county, String page) {
+        return "caching/results/".concat(getCacheFileName(county, page));
     }
 
-    private String getCacheFileName(String county, String unitId, String page) {
-        return String.format("%s_%s_%s", county, unitId, page);
+    private String getCacheFileName(String county, String page) {
+        return String.format("%s_%s.html", county, page);
     }
 
     public boolean isHtmlCached(String fileName) {
-        return new File(fileName).exists();
+        boolean isCached = new File(fileName).exists();
+        logger.info("Caching status for {}: {}", fileName, isCached ? "cached" : "not cached");
+        return isCached;
     }
 
     public void cacheHtml(String fileName, String content) {
         File file = new File(fileName);
         if(!file.exists()) {
             try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), Charset.forName("UTF-8"))) {
+                logger.info("Caching {}", fileName);
                 writer.write(content);
             } catch (IOException e) {
                 logger.error("Caching of {} failed {}", fileName, e.getMessage());
