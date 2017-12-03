@@ -13,7 +13,7 @@ public class CountyCrawlingTaskTest {
 
     @Test
     public void getNumberOfPagesShouldPass() throws Exception {
-        CountyCrawlingTask task = new CountyCrawlingTask("", null, null);
+        CountyCrawlingTask task = new CountyCrawlingTask("", null, null, null);
         assertEquals(4, task.getNumberOfPages(Jsoup.parse(html)));
     }
 

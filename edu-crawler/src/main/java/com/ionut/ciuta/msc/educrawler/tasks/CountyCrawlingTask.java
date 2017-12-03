@@ -3,8 +3,10 @@ package com.ionut.ciuta.msc.educrawler.tasks;
 import com.ionut.ciuta.msc.educrawler.Crawler;
 import com.ionut.ciuta.msc.educrawler.Http;
 import com.ionut.ciuta.msc.educrawler.Urls;
+import com.ionut.ciuta.msc.educrawler.cache.HtmlCacheService;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
 import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
+import com.ionut.ciuta.msc.educrawler.storage.StorageService;
 import com.ionut.ciuta.msc.educrawler.storage.UnitRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,12 +26,17 @@ public class CountyCrawlingTask extends CrawlingTask {
     private static final Logger log = LoggerFactory.getLogger(CountyCrawlingTask.class);
     private final String county;
     private final Crawler crawler;
-    private final UnitRepository repository;
+    private final StorageService storageService;
+    private final HtmlCacheService htmlCacheService;
 
-    public CountyCrawlingTask(String county, Crawler crawler, UnitRepository repository) {
+    public CountyCrawlingTask(String county,
+                              Crawler crawler,
+                              StorageService storageService,
+                              HtmlCacheService htmlCacheService) {
         this.county = county;
         this.crawler = crawler;
-        this.repository = repository;
+        this.storageService = storageService;
+        this.htmlCacheService = htmlCacheService;
     }
 
     @Override
@@ -59,7 +67,7 @@ public class CountyCrawlingTask extends CrawlingTask {
 
         List<Unit> units = us.stream().flatMap(List::stream).collect(Collectors.toList());
         System.out.println(county + ": " + units.size());
-        repository.save(units);
+        storageService.saveUnits(units);
     }
 
     private List<Element> getRows(Document document) {
