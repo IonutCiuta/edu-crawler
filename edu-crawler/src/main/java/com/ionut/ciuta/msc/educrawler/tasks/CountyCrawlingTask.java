@@ -3,7 +3,7 @@ package com.ionut.ciuta.msc.educrawler.tasks;
 import com.ionut.ciuta.msc.educrawler.Crawler;
 import com.ionut.ciuta.msc.educrawler.Http;
 import com.ionut.ciuta.msc.educrawler.Urls;
-import com.ionut.ciuta.msc.educrawler.cache.HtmlCacheService;
+import com.ionut.ciuta.msc.educrawler.cache.CacheService;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
 import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
 import com.ionut.ciuta.msc.educrawler.storage.StorageService;
@@ -25,12 +25,12 @@ public class CountyCrawlingTask extends CrawlingTask {
     private final String county;
     private final Crawler crawler;
     private final StorageService storageService;
-    private final HtmlCacheService cacheService;
+    private final CacheService cacheService;
 
     public CountyCrawlingTask(String county,
                               Crawler crawler,
                               StorageService storageService,
-                              HtmlCacheService cacheService) {
+                              CacheService cacheService) {
         this.county = county;
         this.crawler = crawler;
         this.storageService = storageService;
@@ -40,6 +40,8 @@ public class CountyCrawlingTask extends CrawlingTask {
     @Override
     public void run() {
         log.info("Crawling units for {}", county);
+        delay();
+
         Document docHtml = getUnitPage(1);
         List<Document> docs = new ArrayList<>();
 

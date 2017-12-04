@@ -14,8 +14,8 @@ import java.nio.file.Files;
  * ionutciuta24@gmail.com on 03.12.2017.
  */
 @Component
-public class HtmlCacheService {
-    Logger logger = LoggerFactory.getLogger(HtmlCacheService.class);
+public class CacheService {
+    Logger logger = LoggerFactory.getLogger(CacheService.class);
 
     public String getCountyCacheFileName(String county, String page) {
         return String.format("caching/units/%s_%s.html", county, page);

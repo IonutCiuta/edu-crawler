@@ -10,9 +10,9 @@ import static org.junit.Assert.*;
 /**
  * ionutciuta24@gmail.com on 03.12.2017.
  */
-public class HtmlCacheServiceTest {
+public class CacheServiceTest {
     @InjectMocks
-    private HtmlCacheService htmlCacheService;
+    private CacheService cacheService;
 
     @Before
     public void setUp() throws Exception {
@@ -22,22 +22,22 @@ public class HtmlCacheServiceTest {
     @Test
     public void getCountyCachedFileNameShouldReturnValidName() throws Exception {
         assertEquals("caching/units/AB_page.html",
-                htmlCacheService.getCountyCacheFileName("AB", "page"));
+                cacheService.getCountyCacheFileName("AB", "page"));
     }
 
     @Test
     public void getResultCachedFileNameShouldReturnValidName() throws Exception {
         assertEquals("caching/results/AB_1_page.html",
-                htmlCacheService.getResultsCacheFileName("AB", "1", "page"));
+                cacheService.getResultsCacheFileName("AB", "1", "page"));
     }
 
     @Test
     public void writeFileShouldSucceed() throws Exception {
         String fileName = "file";
-        htmlCacheService.cacheHtml(fileName, "test");
-        assertTrue(htmlCacheService.isHtmlCached(fileName));
-        assertEquals("test", htmlCacheService.loadCachedHtml(fileName));
-        assertTrue(htmlCacheService.removeCachedHtml(fileName));
-        assertFalse(htmlCacheService.isHtmlCached(fileName));
+        cacheService.cacheHtml(fileName, "test");
+        assertTrue(cacheService.isHtmlCached(fileName));
+        assertEquals("test", cacheService.loadCachedHtml(fileName));
+        assertTrue(cacheService.removeCachedHtml(fileName));
+        assertFalse(cacheService.isHtmlCached(fileName));
     }
 }

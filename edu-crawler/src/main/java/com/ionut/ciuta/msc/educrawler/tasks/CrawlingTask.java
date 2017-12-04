@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class CrawlingTask implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(CrawlingTask.class);
-    private static final long DELAY = 1000;
+    private static final long DELAY = 500;
 
     public int getNumberOfPages(Document doc) {
         return Integer.parseInt(
