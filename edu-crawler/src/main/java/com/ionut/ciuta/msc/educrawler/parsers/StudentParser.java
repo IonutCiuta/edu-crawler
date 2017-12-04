@@ -32,13 +32,16 @@ public class StudentParser {
 
         List<String> generalInfo = extractGeneralInfo();
         student.setName(generalInfo.get(0));
-        student.setAvgGrade(Float.parseFloat(generalInfo.get(1)));
+        student.setAvgGrade(generalInfo.get(1).isEmpty() ? 0f : Float.parseFloat(generalInfo.get(1)));
         student.setFirstAttempt(isFirstAttempt());
         student.setProfile(getProfile());
 
         extractCompetencies().stream()
                 .filter(Objects::nonNull)
-                .forEach(c -> student.addCompetency(c.getKey(), c.getValue()));
+                .forEach(c -> student.addCompetency(
+                        Text.normalize(c.getKey()),
+                        c.getValue()
+                ));
 
         extractExams();
         return this;

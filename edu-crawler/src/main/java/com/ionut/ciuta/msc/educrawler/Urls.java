@@ -39,4 +39,12 @@ public class Urls {
                 .buildAndExpand(new Object[]{county, unit})
                 .toUriString();
     }
+
+    public static String build(String county, String unit, int page) {
+        return UriComponentsBuilder
+                .fromHttpUrl(EDU_UNIT)
+                .pathSegment("page_" + page)
+                .buildAndExpand(new Object[]{county, unit})
+                .toUriString();
+    }
 }

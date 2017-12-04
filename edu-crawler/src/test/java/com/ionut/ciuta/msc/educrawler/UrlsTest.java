@@ -32,4 +32,12 @@ public class UrlsTest {
                 Urls.build("AB", "245")
         );
     }
+
+    @Test
+    public void shouldReturnUnitPageUrl() throws Exception {
+        assertEquals(
+                "http://static.bacalaureat.edu.ro/2017/rapoarte/AB/lista_unitati/245/rezultate_finale/alfabetic/page_1",
+                Urls.build("AB", "245", 1)
+        );
+    }
 }

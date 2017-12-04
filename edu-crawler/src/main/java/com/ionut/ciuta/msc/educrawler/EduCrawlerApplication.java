@@ -2,7 +2,6 @@ package com.ionut.ciuta.msc.educrawler;
 
 import com.ionut.ciuta.msc.educrawler.cache.HtmlCacheService;
 import com.ionut.ciuta.msc.educrawler.storage.StorageService;
-import com.ionut.ciuta.msc.educrawler.storage.UnitRepository;
 import com.ionut.ciuta.msc.educrawler.tasks.CountyCrawlingTask;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +18,7 @@ public class EduCrawlerApplication {
 		Crawler crawler = new Crawler(4);
 		Counties.getAll()
 				.forEach(c -> crawler.crawl(new CountyCrawlingTask(c, crawler, storageService, htmlCacheService)));
-		crawler.finish();
+		//crawler.finish();
 		//context.close();
 	}
 }

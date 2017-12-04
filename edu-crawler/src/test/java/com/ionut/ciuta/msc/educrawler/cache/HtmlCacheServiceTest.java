@@ -21,14 +21,14 @@ public class HtmlCacheServiceTest {
 
     @Test
     public void getCountyCachedFileNameShouldReturnValidName() throws Exception {
-        assertEquals("caching/units/AB_page",
+        assertEquals("caching/units/AB_page.html",
                 htmlCacheService.getCountyCacheFileName("AB", "page"));
     }
 
     @Test
     public void getResultCachedFileNameShouldReturnValidName() throws Exception {
-        assertEquals("caching/results/AB_page",
-                htmlCacheService.getResultsCacheFileName("AB", "page"));
+        assertEquals("caching/results/AB_1_page.html",
+                htmlCacheService.getResultsCacheFileName("AB", "1", "page"));
     }
 
     @Test

@@ -22,7 +22,7 @@ public class StorageService {
         unitRepository.save(units);
     }
 
-    public void saveStuents(List<Student> students) {
+    public void saveStudents(List<Student> students) {
         studentRepository.save(students);
     }
 }

@@ -18,4 +18,8 @@ public class Text {
     public static String trim(String text) {
         return text.replaceAll(nbsp, "");
     }
+
+    public static String normalize(String text) {
+        return text.replaceAll("\\.", "");
+    }
 }

@@ -18,15 +18,11 @@ public class HtmlCacheService {
     Logger logger = LoggerFactory.getLogger(HtmlCacheService.class);
 
     public String getCountyCacheFileName(String county, String page) {
-        return "caching/units/".concat(getCacheFileName(county, page));
+        return String.format("caching/units/%s_%s.html", county, page);
     }
 
-    public String getResultsCacheFileName(String county, String page) {
-        return "caching/results/".concat(getCacheFileName(county, page));
-    }
-
-    private String getCacheFileName(String county, String page) {
-        return String.format("%s_%s.html", county, page);
+    public String getResultsCacheFileName(String county, String unit, String page) {
+        return String.format("caching/results/%s_%s_%s.html", county, unit, page);
     }
 
     public boolean isHtmlCached(String fileName) {

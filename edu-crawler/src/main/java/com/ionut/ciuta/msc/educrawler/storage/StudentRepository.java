@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * ionutciuta24@gmail.com on 03.12.2017.
  */
 @Repository
-public interface StudentRepository extends MongoRepository<Student, String> {
+interface StudentRepository extends MongoRepository<Student, String> {
 }

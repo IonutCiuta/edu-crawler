@@ -29,7 +29,6 @@ public class Student {
     /**
      * Unit ID
      */
-    @DBRef(db = "unit")
     private String unit;
 
     /**

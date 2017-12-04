@@ -38,12 +38,8 @@ public class CountyCrawlingTask extends CrawlingTask {
     }
 
     @Override
-    public void info() {
-        log.info("Running task for {}", county);
-    }
-
-    @Override
     public void run() {
+        log.info("Crawling units for {}", county);
         Document docHtml = getUnitPage(1);
         List<Document> docs = new ArrayList<>();
 
@@ -64,8 +60,17 @@ public class CountyCrawlingTask extends CrawlingTask {
         ).collect(Collectors.toList());
 
         List<Unit> units = us.stream().flatMap(List::stream).collect(Collectors.toList());
-        System.out.println(county + ": " + units.size());
+        log.info("Units in county {}: {}", county, units.size());
         storageService.saveUnits(units);
+
+        units.forEach(u -> crawler.crawl(
+                new ResultCrawlingTask(
+                        u.getId(),
+                        county,
+                        storageService,
+                        cacheService
+                )
+        ));
     }
 
     private List<Element> getRows(Document document) {
@@ -95,16 +100,5 @@ public class CountyCrawlingTask extends CrawlingTask {
         }
 
         return Jsoup.parse(html);
-    }
-
-    public int getNumberOfPages(Document doc) {
-        return Integer.parseInt(
-                doc.select("script")
-                .first()
-                .data()
-                .split(" ")[1]
-                .split("=")[1]
-                .split(";")[0]
-        );
     }
 }
