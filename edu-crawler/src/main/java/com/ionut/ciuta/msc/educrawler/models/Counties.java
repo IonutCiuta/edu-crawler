@@ -1,4 +1,4 @@
-package com.ionut.ciuta.msc.educrawler;
+package com.ionut.ciuta.msc.educrawler.models;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;

@@ -1,6 +1,7 @@
 package com.ionut.ciuta.msc.educrawler;
 
 import com.ionut.ciuta.msc.educrawler.cache.CacheService;
+import com.ionut.ciuta.msc.educrawler.models.Counties;
 import com.ionut.ciuta.msc.educrawler.storage.StorageService;
 import com.ionut.ciuta.msc.educrawler.tasks.CountyCrawlingTask;
 import org.springframework.boot.SpringApplication;

@@ -1,12 +1,12 @@
 package com.ionut.ciuta.msc.educrawler.tasks;
 
 import com.ionut.ciuta.msc.educrawler.Crawler;
-import com.ionut.ciuta.msc.educrawler.Http;
-import com.ionut.ciuta.msc.educrawler.Urls;
 import com.ionut.ciuta.msc.educrawler.cache.CacheService;
 import com.ionut.ciuta.msc.educrawler.models.Unit;
 import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
 import com.ionut.ciuta.msc.educrawler.storage.StorageService;
+import com.ionut.ciuta.msc.educrawler.tools.Http;
+import com.ionut.ciuta.msc.educrawler.tools.Urls;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

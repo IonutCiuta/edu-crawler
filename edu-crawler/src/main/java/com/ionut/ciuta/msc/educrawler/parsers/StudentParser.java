@@ -1,6 +1,6 @@
 package com.ionut.ciuta.msc.educrawler.parsers;
 
-import com.ionut.ciuta.msc.educrawler.Text;
+import com.ionut.ciuta.msc.educrawler.tools.Text;
 import com.ionut.ciuta.msc.educrawler.models.*;
 import org.jsoup.nodes.Element;
 

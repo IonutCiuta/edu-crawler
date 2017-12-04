@@ -1,5 +1,6 @@
 package com.ionut.ciuta.msc.educrawler;
 
+import com.ionut.ciuta.msc.educrawler.models.Counties;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

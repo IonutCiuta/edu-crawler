@@ -1,4 +1,4 @@
-package com.ionut.ciuta.msc.educrawler;
+package com.ionut.ciuta.msc.educrawler.tools;
 
 
 import org.jsoup.nodes.Element;
