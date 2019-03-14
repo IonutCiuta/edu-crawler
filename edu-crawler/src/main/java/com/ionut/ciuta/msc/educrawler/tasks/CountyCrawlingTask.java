@@ -97,7 +97,9 @@ public class CountyCrawlingTask extends CrawlingTask {
         if(cacheService.isHtmlCached(fileName)) {
             html = cacheService.loadCachedHtml(fileName);
         } else {
-            html = Http.get(Urls.build(county, page));
+            String url = Urls.build(county, page);
+            log.info("Fetching unit page: {}", url);
+            html = Http.get(url);
             cacheService.cacheHtml(fileName, html);
         }
 

@@ -6,7 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * ionutciuta24@gmail.com on 18.11.2017.
  */
 public class Urls {
-    public static final String EDU_HOME = "http://static.bacalaureat.edu.ro/2017/rapoarte/";
+    public static final String EDU_HOME = "http://static.bacalaureat.edu.ro/2018/rapoarte/";
 
     /**
      * E.g.: http://static.bacalaureat.edu.ro/2017/rapoarte/AB/lista_unitati/

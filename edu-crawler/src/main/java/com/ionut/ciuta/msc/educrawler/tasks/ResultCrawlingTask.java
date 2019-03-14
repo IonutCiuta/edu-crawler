@@ -106,7 +106,10 @@ public class ResultCrawlingTask extends CrawlingTask {
         if(cacheService.isHtmlCached(fileName)) {
             html = cacheService.loadCachedHtml(fileName);
         } else {
-            html = Http.get(Urls.build(county, unitId, page));
+            String url = Urls.build(county, unitId, page);
+            log.info("Fetching result page: {}", url);
+
+            html = Http.get(url);
             cacheService.cacheHtml(fileName, html);
         }
 
