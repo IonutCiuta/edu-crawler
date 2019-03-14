@@ -1,4 +1,4 @@
-package com.ionut.ciuta.msc.educrawler;
+package com.ionut.ciuta.msc.educrawler.tools;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -6,7 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * ionutciuta24@gmail.com on 18.11.2017.
  */
 public class Urls {
-    public static final String EDU_HOME = "http://static.bacalaureat.edu.ro/2017/rapoarte/";
+    public static final String EDU_HOME = "http://static.bacalaureat.edu.ro/2018/rapoarte/";
 
     /**
      * E.g.: http://static.bacalaureat.edu.ro/2017/rapoarte/AB/lista_unitati/
@@ -36,6 +36,14 @@ public class Urls {
     public static String build(String county, String unit) {
         return UriComponentsBuilder
                 .fromHttpUrl(EDU_UNIT)
+                .buildAndExpand(new Object[]{county, unit})
+                .toUriString();
+    }
+
+    public static String build(String county, String unit, int page) {
+        return UriComponentsBuilder
+                .fromHttpUrl(EDU_UNIT)
+                .pathSegment("page_" + page)
                 .buildAndExpand(new Object[]{county, unit})
                 .toUriString();
     }

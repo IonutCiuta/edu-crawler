@@ -1,15 +1,21 @@
 package com.ionut.ciuta.msc.educrawler.tasks;
 
 import com.ionut.ciuta.msc.educrawler.Crawler;
-import com.ionut.ciuta.msc.educrawler.Http;
-import com.ionut.ciuta.msc.educrawler.Urls;
+import com.ionut.ciuta.msc.educrawler.cache.CacheService;
+import com.ionut.ciuta.msc.educrawler.models.Unit;
+import com.ionut.ciuta.msc.educrawler.parsers.UnitParser;
+import com.ionut.ciuta.msc.educrawler.storage.StorageService;
+import com.ionut.ciuta.msc.educrawler.tools.Http;
+import com.ionut.ciuta.msc.educrawler.tools.Urls;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ionutciuta24@gmail.com on 19.11.2017.
@@ -18,27 +24,62 @@ public class CountyCrawlingTask extends CrawlingTask {
     private static final Logger log = LoggerFactory.getLogger(CountyCrawlingTask.class);
     private final String county;
     private final Crawler crawler;
+    private final StorageService storageService;
+    private final CacheService cacheService;
 
-    public CountyCrawlingTask(String county, Crawler crawler) {
+    public CountyCrawlingTask(String county,
+                              Crawler crawler,
+                              StorageService storageService,
+                              CacheService cacheService) {
         this.county = county;
         this.crawler = crawler;
-    }
-
-    @Override
-    public void info() {
-        log.info("Running task for {}", county);
+        this.storageService = storageService;
+        this.cacheService = cacheService;
     }
 
     @Override
     public void run() {
-        Document docHtml = getUnitPage(null);
+        log.info("Crawling units for {}", county);
+        delay();
+
+        Document docHtml = getUnitPage(1);
         List<Document> docs = new ArrayList<>();
 
         int pages = getNumberOfPages(docHtml);
         docs.add(docHtml);
         docs.addAll(getUnits(pages));
 
-        System.out.println(docs.size());
+        List<List<Unit>> us = docs.stream().map(
+                document -> {
+                    List<Element> rows = getRows(document);
+                    return rows.stream()
+                            .map(row -> new UnitParser()
+                                    .fromRow(row)
+                                    .fromCounty(county)
+                                    .getUnit()
+                            ).collect(Collectors.toList());
+                }
+        ).collect(Collectors.toList());
+
+        List<Unit> units = us.stream().flatMap(List::stream).collect(Collectors.toList());
+        log.info("Units in county {}: {}", county, units.size());
+        storageService.saveUnits(units);
+
+        units.forEach(u -> crawler.crawl(
+                new ResultCrawlingTask(
+                        u.getId(),
+                        county,
+                        storageService,
+                        cacheService
+                )
+        ));
+    }
+
+    private List<Element> getRows(Document document) {
+        List<Element> rows = new ArrayList<>();
+        rows.addAll(document.select(".tr1"));
+        rows.addAll(document.select(".tr2"));
+        return rows;
     }
 
     private List<Document> getUnits(int count) {
@@ -50,20 +91,18 @@ public class CountyCrawlingTask extends CrawlingTask {
     }
 
     private Document getUnitPage(Integer page) {
-        String html = Http.get(page == null ? Urls.build(county) : Urls.build(county, page));
-        System.out.println(html);
-        System.out.println();
-        return Jsoup.parse(html);
-    }
+        String html;
+        String fileName = cacheService.getCountyCacheFileName(county, page.toString());
 
-    public int getNumberOfPages(Document doc) {
-        return Integer.parseInt(
-                doc.select("script")
-                .first()
-                .data()
-                .split(" ")[1]
-                .split("=")[1]
-                .split(";")[0]
-        );
+        if(cacheService.isHtmlCached(fileName)) {
+            html = cacheService.loadCachedHtml(fileName);
+        } else {
+            String url = Urls.build(county, page);
+            log.info("Fetching unit page: {}", url);
+            html = Http.get(url);
+            cacheService.cacheHtml(fileName, html);
+        }
+
+        return Jsoup.parse(html);
     }
 }

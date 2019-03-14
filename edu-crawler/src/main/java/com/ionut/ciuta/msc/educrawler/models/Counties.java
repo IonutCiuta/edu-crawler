@@ -1,4 +1,4 @@
-package com.ionut.ciuta.msc.educrawler;
+package com.ionut.ciuta.msc.educrawler.models;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * ionutciuta24@gmail.com on 19.11.2017.
  */
-public class County {
+public class Counties {
     private static final List<String> all;
 
     static {

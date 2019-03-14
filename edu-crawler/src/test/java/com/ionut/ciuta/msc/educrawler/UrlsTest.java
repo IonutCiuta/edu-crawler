@@ -1,5 +1,6 @@
 package com.ionut.ciuta.msc.educrawler;
 
+import com.ionut.ciuta.msc.educrawler.tools.Urls;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -30,6 +31,14 @@ public class UrlsTest {
         assertEquals(
                 "http://static.bacalaureat.edu.ro/2017/rapoarte/AB/lista_unitati/245/rezultate_finale/alfabetic/",
                 Urls.build("AB", "245")
+        );
+    }
+
+    @Test
+    public void shouldReturnUnitPageUrl() throws Exception {
+        assertEquals(
+                "http://static.bacalaureat.edu.ro/2017/rapoarte/AB/lista_unitati/245/rezultate_finale/alfabetic/page_1",
+                Urls.build("AB", "245", 1)
         );
     }
 }
